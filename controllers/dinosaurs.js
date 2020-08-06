@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
+//will use to read json files
+const fs = require("fs");
 
 //index route
-router.get("/dinosaurs", function(req, res)
+router.get("/", function(req, res)
 {
     //get the jsson from dinosaurs.json
-    let dinosaurs = fs.readFileSync("./dinosaurs.json");
+    let dinosaurs = fs.readFileSync("././dinosaurs.json");
     //convert the json to javascript
     let dinoData = JSON.parse(dinosaurs);
 
@@ -27,14 +29,14 @@ router.get("/dinosaurs", function(req, res)
 });
 
 // get the new dino form
-router.get("/dinosaurs/new", (req,res)=>{
+router.get("/new", (req,res)=>{
     res.render("dinosaurs/new");
 });
 
 //show route (uses URL parameter "id")
-router.get("/dinosaurs/:id", function(req,res)
+router.get("/:id", function(req,res)
 {
-    let dinosaurs = fs.readFileSync("./dinosaurs.json");
+    let dinosaurs = fs.readFileSync("././dinosaurs.json");
     let dinoData = JSON.parse(dinosaurs);
     //grab the id parameter from the url and convert to int (was string orignally)
     let dinoIndex = parseInt(req.params.id);
@@ -43,15 +45,15 @@ router.get("/dinosaurs/:id", function(req,res)
 });
 
 //post a new dino
-router.post("/dinosaurs", function(req, res)
+router.post("/", function(req, res)
 {
     //get json dinos and convert to a js array of objects
-    let dinosaurs = fs.readFileSync("./dinosaurs.json");
+    let dinosaurs = fs.readFileSync("././dinosaurs.json");
     let dinoData = JSON.parse(dinosaurs);
     //push new dino to the array
     dinoData.push(req.body)
     //convert dinoData back to JSON and write to dinosaurs.json file
-    fs.writeFileSync("./dinosaurs.json", JSON.stringify(dinoData));
+    fs.writeFileSync("./../dinosaurs.json", JSON.stringify(dinoData));
     //redirect to the index get route
     res.redirect("/dinosaurs");
     //console.log(req.body);
