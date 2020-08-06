@@ -5,6 +5,7 @@ const app = express();
 const ejsLayouts = require("express-ejs-layouts");
 //will use to read json files
 const fs = require("fs");
+const methodOverride = require("method-override");
 
 //tell express we're using ejs
 app.set("view engine", "ejs");

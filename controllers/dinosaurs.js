@@ -53,10 +53,26 @@ router.post("/", function(req, res)
     //push new dino to the array
     dinoData.push(req.body)
     //convert dinoData back to JSON and write to dinosaurs.json file
-    fs.writeFileSync("./../dinosaurs.json", JSON.stringify(dinoData));
+    fs.writeFileSync("././dinosaurs.json", JSON.stringify(dinoData));
     //redirect to the index get route
     res.redirect("/dinosaurs");
     //console.log(req.body);
+});
+
+router.delete("/:id", function(req, res)
+{
+    let dinosaurs = fs.readFileSync("././dinosaurs.json");
+    //another way to parse without creating a new variable
+    dinosaurs = JSON.parse(dinosaurs);
+
+    //delete the dinosaur from the dinosaurs json file
+    //use splice() method to delete it from the array that's saved in the variable dinosaurs
+    dinosaurs.splice(req.params.id, 1);
+
+    //save the dinosaurs back into the JSON file
+    fs.writeFileSync("././dinosaurs.json", JSON.stringify(dinosaurs));
+
+    res.redirect("/dinosaurs");
 });
 
 module.exports = router;
