@@ -25,4 +25,16 @@ router.get("/:id", function(req, res)
     res.render("prehistoric-creatures/show", {myPrehis: prehisData[prehisIndex]});
 })
 
+router.post("/", function(req, res)
+{
+    let prehistorics = fs.readFileSync("././prehistoric_creatures.json");
+    let prehisData = JSON.parse(prehistorics);
+
+    prehisData.push(req.body);
+
+    fs.writeFileSync("././prehistoric_creatures.json", JSON.stringify(prehisData));
+
+    res.redirect("/prehistoric_creatures");
+})
+
 module.exports = router;
