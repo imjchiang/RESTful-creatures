@@ -10,6 +10,8 @@ const fs = require("fs");
 app.set("view engine", "ejs");
 //tell express to let us use a layout template
 app.use(ejsLayouts);
+//body parameter
+app.use(express.urlencoded({extended: false}));
 
 //home route
 app.get("/", function(req, res)
@@ -46,5 +48,21 @@ app.get("/dinosaurs/:id", function(req,res)
     res.render("dinosaurs/show", {myDino: dinoData[dinoIndex]});
     //console.log(req.params);
 });
+
+//post a new dino
+app.post("/dinosaurs", function(req, res)
+{
+    //get json dinos and convert to a js array of objects
+    let dinosaurs = fs.readFileSync("./dinosaurs.json");
+    let dinoData = JSON.parse(dinosaurs);
+    //push new dino to the array
+    dinoData.push(req.body)
+    //convert dinoData back to JSON and write to dinosaurs.json file
+    fs.writeFileSync("./dinosaurs.json", JSON.stringify(dinoData));
+    //redirect to the index get route
+    res.redirect("/dinosaurs");
+    //console.log(req.body);
+});
+
 
 app.listen(8000);
