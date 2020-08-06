@@ -29,7 +29,12 @@ app.get("/dinosaurs", function(req, res)
     res.render("dinosaurs/index", {myDinos: dinoData})
     //console.log(dinoData);
     //res.send("DINOS");
-})
+});
+
+// get the new dino form
+app.get("/dinosaurs/new", (req,res)=>{
+    res.render("dinosaurs/new");
+});
 
 //show route (uses URL parameter "id")
 app.get("/dinosaurs/:id", function(req,res)
