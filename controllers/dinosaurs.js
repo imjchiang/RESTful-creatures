@@ -33,6 +33,31 @@ router.get("/new", (req,res)=>{
     res.render("dinosaurs/new");
 });
 
+//get the update form
+router.get("/edit/:id", function(req, res)
+{
+    let dinosaurs = fs.readFileSync("././dinosaurs.json")
+    let dinoData = JSON.parse(dinosaurs);
+
+    res.render("dinosaurs/edit", {dino: dinoData[req.params.id], dinoId: req.params.id});
+})
+
+//put route [uses URL paramete "id"]
+router.put("/:id", function(req, res)
+{
+    let dinosaurs = fs.readFileSync("././dinosaurs.json");
+    let dinoData = JSON.parse(dinosaurs);
+
+    //update the indo
+    //reassign the name and type fields of the dinosaur
+    dinoData[req.params.id].name = req.body.name;
+    dinoData[req.params.id].type = req.body.type;
+
+    //save the edited dinosaurs information
+    fs.writeFileSync("././dinosaurs.json", JSON.stringify(dinoData));
+    res.redirect("/dinosaurs");
+})
+
 //show route (uses URL parameter "id")
 router.get("/:id", function(req,res)
 {
